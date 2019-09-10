@@ -1,0 +1,42 @@
+#!/home/oracle/anaconda3/bin/python
+
+
+
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+
+
+strFrom = 'x@ux'
+
+
+strTo = '244xxxxxxx@unitel.co.ao'
+ip_server = 'xx.xx.xx.xx:25'
+
+mensagem = 'Boa tarde, \n Alerta de casos \n Controle : Rede Sociais'
+
+
+msgRoot = MIMEMultipart('related')
+msgRoot['Subject'] = 'test message'
+msgRoot['From'] = 'test message'
+msgRoot['To'] = strTo
+msgRoot.preamble = mensagem #'This is a multi-part message in MIME format.'
+
+
+# Encapsulate the plain and HTML versions of the message body in an
+# 'alternative' part, so message agents can decide which they want to display.
+msgAlternative = MIMEMultipart('alternative')
+msgRoot.attach(msgAlternative)
+
+msgText = MIMEText(mensagem)
+msgAlternative.attach(msgText)
+
+
+me = strFrom
+server = ip_server
+you =strTo
+server = smtplib.SMTP(server)
+server.sendmail(strFrom, strTo, msgRoot.as_string())
+server.quit()
